@@ -1,0 +1,87 @@
+- name: configuring catalogue service
+  hosts:  catalogue
+  tasks:
+  - name: disabling default nodejs
+    # In ansible we dont have module to disbaling, enabling the package so here we are using command line module.
+    ansible.builtin.command: dnf module disable nodejs -y
+
+  - name: enabling nodejs:20
+    ansible.builtin.command: dnf enable module nodejs:20 -y
+
+  - name:  installing nodejs
+    ansible.builtin.package:
+      name: nodejs
+      state:  installed
+
+  - name: crating directory
+    ansible.builtin.file:
+      name: /app
+      state:  directory
+
+  - name:  creating system user
+    ansible.builtin.user:
+      name: roboshop
+      shell:  /sbin/nologin
+      system: true
+      home: /app
+
+  - name: downloading catalogue service
+    ansible.builtin.get_url:
+      url:  https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+
+  # this module thinks file exist on ansible control server,But needs to extract on to remote machine so
+  # remote_src: yes means files already exist in catalogue server
+
+  - name: extracting the service
+    ansible.builtin.unarchive:
+      src:  /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  - name: installing dependencies #npm it is a community module
+    community.general.npm:
+      path: /app
+
+  - name: copying catalogue service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name:  Taking daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload:  yes
+
+  - name: start and enabling catalogue
+    ansible.builtin.service:
+      name: catalogue
+      state:  start
+      status: enable
+
+  - name: copying mongoRepo
+    ansible.builtin.copy:
+      src:  mongo.mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: installing mongodb clinet
+    ansible.builtin.package:
+      name: mongodb-mongosh
+      state: installed
+
+  - name: check whether products loaded or not
+    ansible.builtin.command:  mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    register: catalogue_output
+  
+  - name: printing catalogue_output
+    amssible.builtin.debug:
+      msg: "{{ catalogue_output }}"
+
+  - name: load products
+    ansible.builtin.shell: mongosh --host mongodb.daws84s.site < /app/db/master-data.js
+    when: catalogue_output.stdout | int < 0
+
+    # in linux server the result of stdout will be string, when is unable to compare so we use filter and given integer
+
+
+
