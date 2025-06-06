@@ -58,7 +58,7 @@
     ansible.builtin.service:
       name: catalogue
       state:  start
-      status: enable
+      enabled:  yes 
 
   - name: copying mongoRepo
     ansible.builtin.copy:
