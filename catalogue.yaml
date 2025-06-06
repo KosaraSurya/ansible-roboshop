@@ -57,7 +57,7 @@
   - name: start and enabling catalogue
     ansible.builtin.service:
       name: catalogue
-      state:  start
+      state:  started
       enabled:  yes 
 
   - name: copying mongoRepo
@@ -75,7 +75,7 @@
     register: catalogue_output
   
   - name: printing catalogue_output
-    amssible.builtin.debug:
+    anssible.builtin.debug:
       msg: "{{ catalogue_output }}"
 
   - name: load products
