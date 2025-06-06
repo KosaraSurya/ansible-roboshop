@@ -15,7 +15,7 @@
     - name: start and enabling mongodb
       ansible.builtin.service:
         name: mongod
-        state:  start
+        state:  started
         status: enable
       
     - name: allowing remote connections
