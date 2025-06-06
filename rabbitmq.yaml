@@ -1,0 +1,24 @@
+- name: configuration of rabbitmq server
+  hosts: rabbitmq
+  tasks:  
+  - name: installing rabbitmq server
+    ansible.builtin.dnf:
+      name: rabbitmq
+      state: installed
+
+  - name: starting and enabling servie
+    ansible.builtin.service:
+      name: rabbitmq
+      state: started
+      enable: yes
+
+  - name: create rabbitmq user
+    community.rabbitmq.rabbitmq_user:
+      user: roboshop
+      password: roboshop123
+      permissions:
+        - vhost: /
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+      state: present
