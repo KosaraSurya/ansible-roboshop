@@ -1,4 +1,5 @@
 - name: configuring cart service
+  become: yes
   hosts:  cart
   tasks:
     - name: disabling default nodejs

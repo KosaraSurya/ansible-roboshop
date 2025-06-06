@@ -1,4 +1,5 @@
 - name: configuring catalogue service
+  become: yes
   hosts:  catalogue
   tasks:
   - name: disabling default nodejs
