@@ -16,7 +16,7 @@
   - name: start and enable the nginx
     ansible.builtin.service:
       name: nginx
-      state:  started
+      state:  restarted
       enabled: yes
 
   - name: remooving default content of nginx
@@ -49,7 +49,7 @@
     ansible.builtin.copy:
       src: nginx.conf
       dest: /etc/nginx/nginx.conf
-    
+
   - name: restart nginx
     ansible.builtin.service:
       name: nginx
