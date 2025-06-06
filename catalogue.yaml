@@ -75,7 +75,7 @@
     register: catalogue_output
   
   - name: printing catalogue_output
-    anssible.builtin.debug:
+    ansible.builtin.debug:
       msg: "{{ catalogue_output }}"
 
   - name: load products
