@@ -46,7 +46,7 @@
       state: absent
 
   - name: copying nginx configuration
-    ansible.builtin.debug:
+    ansible.builtin.copy:
       src: nginx.conf
       dest: /etc/nginx/nginx.conf
     
