@@ -4,7 +4,7 @@
   tasks:  
   - name: installing rabbitmq server
     ansible.builtin.dnf:
-      name: rabbitmq
+      name: rabbitmq-server
       state: installed
 
   - name: starting and enabling servie
