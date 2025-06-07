@@ -1,0 +1,60 @@
+- name: configuring user service
+  hosts:  catalogue
+  tasks:
+  - name: disabling default nodejs
+    # In ansible we dont have module to disbaling, enabling the package so here we are using command line module.
+    ansible.builtin.command: dnf module disable nodejs -y
+
+  - name: enabling nodejs:20
+    ansible.builtin.command: dnf enable module nodejs:20 -y
+
+  - name:  installing nodejs
+    ansible.builtin.package:
+      name: nodejs
+      state:  installed
+
+  - name: crating directory
+    ansible.builtin.file:
+      name: /app
+      state:  directory
+
+  - name:  creating system user
+    ansible.builtin.user:
+      name: roboshop
+      shell:  /sbin/nologin
+      system: true
+      home: /app
+
+  - name: downloading user service
+    ansible.builtin.get_url:
+      url:  https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+      dest: /tmp/user.zip
+
+
+  # this module thinks file exist on ansible control server,But needs to extract on to remote machine so
+  # remote_src: yes means files already exist in user server
+
+  - name: extracting the service
+    ansible.builtin.unarchive:
+      src:  /tmp/user.zip
+      dest: /app
+      remote_src: yes
+
+  - name: installing dependencies #npm it is a community module
+    community.general.npm:
+      path: /app
+
+  - name: copying user service
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name:  Taking daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload:  yes
+
+  - name: start and enabling user
+    ansible.builtin.service:
+      name: user
+      state:  start
+      status: enable
