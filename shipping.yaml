@@ -11,7 +11,7 @@
     - mysql
 
   - name: installing PyMySQL and cryptography
-    ansible.builtin.dnf:
+    ansible.builtin.pip:
       name: "{{ item }}"
       executable: pip3.9  #pip3 used to install python dependecies( for ansible because ansible developed in the basis of python)
     loop:
