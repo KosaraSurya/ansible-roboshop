@@ -58,4 +58,4 @@
     ansible.builtin.service:
       name: user
       state:  start
-      status: enable
+      enabled: yes
