@@ -1,4 +1,5 @@
 - name: configuring user service
+  become: yes
   hosts:  catalogue
   tasks:
   - name: disabling default nodejs
