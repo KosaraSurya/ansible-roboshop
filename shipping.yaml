@@ -6,17 +6,17 @@
     ansible.builtin.dnf:
       name: "{{ item }}"
       state: installed
-      loop:
-      - maven
-      - mysql
+    loop:
+    - maven
+    - mysql
 
   - name: installing PyMySQL and cryptography
     ansible.builtin.dnf:
       name: "{{ item }}"
       executable: pip3.9  #pip3 used to install python dependecies( for ansible because ansible developed in the basis of python)
-      loop:
-      - PyMySQL # PyMySQLn is used to connect mysql clinet
-      - cryptography # cryptography used to password configuration
+    loop:
+    - PyMySQL # PyMySQLn is used to connect mysql clinet
+    - cryptography # cryptography used to password configuration
 
   - name: creating the directory
     ansible.builtin.file:
