@@ -7,7 +7,7 @@
       ansible.builtin.command: dnf module disable nodejs -y
 
     - name: enabling nodejs:20
-      ansible.builtin.command: dnf enable module nodejs:20 -y
+      ansible.builtin.command: dnf module enable nodejs:20 -y
 
     - name:  installing nodejs
       ansible.builtin.package:
@@ -57,5 +57,5 @@
     - name: start and enabling cart
       ansible.builtin.service:
         name: cart
-        state:  start
-        status: enable
+        state:  started
+        enabled: yes
