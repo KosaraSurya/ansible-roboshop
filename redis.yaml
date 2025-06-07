@@ -1,4 +1,5 @@
 - name: configuring redis service
+  become: yes
   hosts:  redis
   tasks:
   - name: disabling default redis 
