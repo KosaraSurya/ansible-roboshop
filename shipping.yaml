@@ -2,10 +2,10 @@
   become: yes
   hosts:  shipping
   tasks:
-  - name: installing maven
+  - name: installing maven and mysql
     ansible.builtin.dnf:
       name: "{{ item }}"
-      state: present
+      state: installed
       loop:
       - maven
       - mysql
