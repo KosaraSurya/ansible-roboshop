@@ -1,4 +1,5 @@
 - name: payment servie configuration
+  become: yes
   hosts: payment
   tasks:
   - name: install python3 packages
