@@ -15,7 +15,6 @@
       name: app
       state: directory
 
-
   - name: creating user
     ansible.builtin.user:
       name: roboshop
