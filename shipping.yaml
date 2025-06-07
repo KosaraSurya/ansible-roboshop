@@ -1,4 +1,5 @@
 - name: configuring shipping service
+  become: yes
   hosts:  shipping
   tasks:
   - name: installing maven
@@ -64,7 +65,7 @@
     ansible.builtin.service:
       name: shipping
       state: started
-      enable: yes
+      enabled: yes
 
 
   - name: import data
