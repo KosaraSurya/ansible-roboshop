@@ -1,6 +1,6 @@
 - name: configuring user service
   become: yes
-  hosts:  catalogue
+  hosts:  user
   tasks:
   - name: disabling default nodejs
     # In ansible we dont have module to disbaling, enabling the package so here we are using command line module.
