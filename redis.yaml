@@ -4,10 +4,10 @@
   tasks:
   - name: disabling default redis 
     # In ansible we dont have module to disbaling, enabling the package so here we are using command line module.
-    ansible.builtin.command: dnf module disable redis  -y
+    ansible.builtin.command: dnf disable module redis  -y
 
   - name: enabling nodejs:20
-    ansible.builtin.command: dnf module enable redis:7 -y
+    ansible.builtin.command: dnf enable module redis:7 -y
 
   - name: installing redis
     ansible.builtin.package:
