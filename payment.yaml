@@ -16,14 +16,14 @@
       name: app
       state: directory
 
-  - name: creating user
+  - name: creating system user
     ansible.builtin.user:
       name: roboshop
       shell:  /sbin/nologin
       system: true
       home: /app
 
-  - name: downloading the servie code
+  - name: downloading the service code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
       dest: /tmp/payment.zip
